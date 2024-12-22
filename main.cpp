@@ -1,10 +1,10 @@
 /*
-    é—®é¢˜æè¿°ï¼šä¸€ä¸ªå·¥ç¨‹çš„å®Œå·¥éœ€è¦è‹¥å¹²å­å·¥ç¨‹é…åˆå®Œæˆï¼Œæ¯ä¸ªå­å·¥ç¨‹æœ‰è‡ªå·±çš„è®¡åˆ’å®Œå·¥ç”¨æ—¶ï¼Œå­å·¥ç¨‹ä¹‹é—´å­˜åœ¨å…ˆåå…³ç³»ï¼›
-æ ¹æ®å­å·¥ç¨‹çš„å…ˆåå…³ç³»å»ºç«‹æ•°æ®æ¨¡å‹ï¼Œå…ˆåˆ¤æ–­æ¨¡å‹çš„å¯å®æ–½æ€§ï¼ˆæ˜¯å¦å­˜åœ¨ç¯ï¼‰, å†è®¡ç®—æ€»å·¥ç¨‹å®Œå·¥æ‰€éœ€æ—¶é•¿ï¼Œå¹¶ç»™å‡ºå…³é”®å­å·¥ç¨‹ã€‚
-    åŸºæœ¬è¦æ±‚ï¼š
-(1)å»ºç«‹ç½‘ç»œæ¨¡å‹ï¼Œè¦æ±‚ç»“ç‚¹ï¼ˆå­å·¥ç¨‹ï¼‰æ•°é‡ä¸ä½äº10ä¸ªï¼Œè¾¹ï¼ˆå­å·¥ç¨‹çš„å…ˆåå…³ç³»ï¼‰æ•°ä¸ä½äº20æ¡ï¼Œé‡‡ç”¨é‚»æ¥çŸ©é˜µæˆ–é‚»æ¥è¡¨ç»“æ„å­˜å‚¨ç½‘ï¼›
-(2)è¾“å‡ºä¸€ä¸ªæ‹“æ‰‘åºåˆ—ï¼›
-(3)è¾“å‡ºå…³é”®è·¯å¾„é•¿åº¦ã€å…³é”®æ´»åŠ¨ã€æ‰€æœ‰å…³é”®è·¯å¾„ã€‚
+    ÎÊÌâÃèÊö£ºÒ»¸ö¹¤³ÌµÄÍê¹¤ĞèÒªÈô¸É×Ó¹¤³ÌÅäºÏÍê³É£¬Ã¿¸ö×Ó¹¤³ÌÓĞ×Ô¼ºµÄ¼Æ»®Íê¹¤ÓÃÊ±£¬×Ó¹¤³ÌÖ®¼ä´æÔÚÏÈºó¹ØÏµ£»
+¸ù¾İ×Ó¹¤³ÌµÄÏÈºó¹ØÏµ½¨Á¢Êı¾İÄ£ĞÍ£¬ÏÈÅĞ¶ÏÄ£ĞÍµÄ¿ÉÊµÊ©ĞÔ£¨ÊÇ·ñ´æÔÚ»·£©, ÔÙ¼ÆËã×Ü¹¤³ÌÍê¹¤ËùĞèÊ±³¤£¬²¢¸ø³ö¹Ø¼ü×Ó¹¤³Ì¡£
+    »ù±¾ÒªÇó£º
+(1)½¨Á¢ÍøÂçÄ£ĞÍ£¬ÒªÇó½áµã£¨×Ó¹¤³Ì£©ÊıÁ¿²»µÍÓÚ10¸ö£¬±ß£¨×Ó¹¤³ÌµÄÏÈºó¹ØÏµ£©Êı²»µÍÓÚ20Ìõ£¬²ÉÓÃÁÚ½Ó¾ØÕó»òÁÚ½Ó±í½á¹¹´æ´¢Íø£»
+(2)Êä³öÒ»¸öÍØÆËĞòÁĞ£»
+(3)Êä³ö¹Ø¼üÂ·¾¶³¤¶È¡¢¹Ø¼ü»î¶¯¡¢ËùÓĞ¹Ø¼üÂ·¾¶¡£
 */
 
 #include <iostream>
@@ -14,29 +14,30 @@
 #include <climits>  // INT_MAX
 #define _USE_MATH_DEFINES
 #include <math.h>    // M_PI
-#include "graphics.h"  // EasyX å›¾å½¢åº“
+#include "graphics.h"  // EasyX Í¼ĞÎ¿â
 
 using namespace std;
 
-struct SubProject {
-    int id;         // ç»“ç‚¹id
-    int duration;   // æŒç»­æ—¶é—´
-    vector<int> next;  // åç»§
-};
-
 bool is_any_in_vector(const vector<int>& vec, int element);
 
-// æ‹“æ‰‘æ’åºå¤±è´¥ï¼Œæœ‰å‘å›¾ä¸­å­˜åœ¨ç¯
+struct SubProject {
+    int id;         // ½áµãid
+    int duration;   // ³ÖĞøÊ±¼ä
+    vector<int> next;  // ºó¼Ì
+};
+
+// ÍØÆËÅÅĞòÊ§°Ü£¬ÓĞÏòÍ¼ÖĞ´æÔÚ»·
 bool ExistCycle(const vector<vector<int>>& graph, int n) {
-    // è®¡ç®—å…¥åº¦
+    // ¼ÆËãÈë¶È
     vector<int> inDegree(n, 0);
     for (int u = 0; u < n; ++u) {
         for (int v : graph[u]) {
+            // u -> v
             ++inDegree[v];
         }
     }
 
-    // å…¥åº¦ä¸º0çš„èŠ‚ç‚¹å³æºç‚¹å…¥é˜Ÿ
+    // Èë¶ÈÎª0µÄ½Úµã¼´Ô´µãÈë¶Ó
     queue<int> q;
     for (int i = 0; i < n; ++i) {
         if (inDegree[i] == 0) {
@@ -44,7 +45,7 @@ bool ExistCycle(const vector<vector<int>>& graph, int n) {
         }
     }
 
-    // å°è¯•æ‹“æ‰‘æ’åº
+    // ³¢ÊÔÍØÆËÅÅĞò
     int visited = 0;
     while (!q.empty()) {
         int u = q.front();
@@ -59,9 +60,9 @@ bool ExistCycle(const vector<vector<int>>& graph, int n) {
     return visited != n;
 }
 
-// æ‹“æ‰‘æ’åºå­˜å…¥vector
+// ÍØÆËÅÅĞò´æÈëvector
 vector<int> topologicalSort(const vector<vector<int>>& graph, int n) {
-    // è®¡ç®—å…¥åº¦
+    // ¼ÆËãÈë¶È
     vector<int> inDegree(n, 0);
     for (int u = 0; u < n; ++u) {
         for (int v : graph[u]) {
@@ -69,7 +70,7 @@ vector<int> topologicalSort(const vector<vector<int>>& graph, int n) {
         }
     }
 
-    // å…¥åº¦ä¸º0çš„èŠ‚ç‚¹å…¥é˜Ÿ
+    // Èë¶ÈÎª0µÄ½ÚµãÈë¶Ó
     queue<int> q;
     for (int i = 0; i < n; ++i) {
         if (inDegree[i] == 0) {
@@ -77,7 +78,7 @@ vector<int> topologicalSort(const vector<vector<int>>& graph, int n) {
         }
     }
 
-    // æ‹“æ‰‘æ’åº BFS + é˜Ÿåˆ—
+    // ÍØÆËÅÅĞò BFS + ¶ÓÁĞ
     vector<int> topoOrder;
     while (!q.empty()) {
         int u = q.front();
@@ -93,7 +94,7 @@ vector<int> topologicalSort(const vector<vector<int>>& graph, int n) {
     return topoOrder;
 }
 
-// å…³é”®è·¯å¾„è®¡ç®—
+// ¹Ø¼üÂ·¾¶¼ÆËã
 struct CriticalPathResult {
     vector<int> criticalPath;
     int criticalPathLength;
@@ -104,23 +105,24 @@ CriticalPathResult findCriticalPath(const vector<SubProject>& subproject, const 
     vector<int> earliest(n, 0);
     vector<int> latest(n, INT_MAX);
 
-    // è®¡ç®—æœ€æ—©å¼€å§‹æ—¶é—´
+    // ¼ÆËã×îÔç¿ªÊ¼Ê±¼ä = ×îÔçÍê³ÉÊ±¼ä£¨earliest[u] + subproject[u].duration£©Óëµ±Ç° earliest[v] µÄ½Ï´óÖµ
     for (int u : topoOrder) {
         for (int v : subproject[u].next) {
             earliest[v] = max(earliest[v], earliest[u] + subproject[u].duration);
         }
     }
 
-    // è®¡ç®—æœ€æ™šå¼€å§‹æ—¶é—´
+    // ¼ÆËã×îÍí¿ªÊ¼Ê±¼ä = ×îÍíÍê³ÉÊ±¼ä£¨latest[v] - subproject[u].duration£©Óëµ±Ç° latest[u] µÄ½ÏĞ¡Öµ
     latest[topoOrder.back()] = earliest[topoOrder.back()];
+    // ·´Ïòµü´úÆ÷ÄæĞò±éÀúÍØÆËÅÅĞò
     for (auto it = topoOrder.rbegin(); it != topoOrder.rend(); ++it) {
-        int u = *it;
+        int u = *it;    // ½âÒıÓÃ
         for (int v : subproject[u].next) {
             latest[u] = min(latest[u], latest[v] - subproject[u].duration);
         }
     }
 
-    // æ”¶é›†å…³é”®è·¯å¾„
+    // ÊÕ¼¯¹Ø¼üÂ·¾¶
     CriticalPathResult result;
     for (int i = 0; i < n; ++i) {
         if (earliest[i] == latest[i]) {
@@ -131,18 +133,18 @@ CriticalPathResult findCriticalPath(const vector<SubProject>& subproject, const 
     return result;
 }
 
-// èŠ‚ç‚¹ä½ç½®ç»“æ„ä½“
+// ½ÚµãÎ»ÖÃ½á¹¹Ìå
 struct NodePosition {
-    int x;  // ä¿®æ”¹ä¸ºæ•´æ•°ç±»å‹
+    int x;  // ĞŞ¸ÄÎªÕûÊıÀàĞÍ
     int y;
 };
 
-// ç»˜åˆ¶æ‹“æ‰‘å›¾å’Œå…³é”®è·¯å¾„ï¼ˆä»…ç»˜åˆ¶è¾¹å’ŒèŠ‚ç‚¹æ ‡ç­¾ï¼Œä¸ç»˜åˆ¶åœ†ï¼‰
+// »æÖÆÍØÆËÍ¼ºÍ¹Ø¼üÂ·¾¶£¨½ö»æÖÆ±ßºÍ½Úµã±êÇ©£¬²»»æÖÆÔ²£©
 void drawGraph(const vector<SubProject>& subproject, const vector<int>& topoOrder, const vector<int>& criticalPath, const vector<NodePosition>& positions) {
-    // ç»˜åˆ¶è¾¹
+    // »æÖÆ±ß
     for (const auto& proj : subproject) {
         for (int to : proj.next) {
-            // æ£€æŸ¥æ˜¯å¦åœ¨å…³é”®è·¯å¾„
+            // ¼ì²éÊÇ·ñÔÚ¹Ø¼üÂ·¾¶
             bool isCP = false;
             for (size_t i = 0; i < criticalPath.size() - 1; ++i) {
                 if (criticalPath[i] == proj.id && criticalPath[i + 1] == to) {
@@ -150,138 +152,146 @@ void drawGraph(const vector<SubProject>& subproject, const vector<int>& topoOrde
                     break;
                 }
             }
-            // è®¾ç½®é¢œè‰²
+            // ÉèÖÃÑÕÉ«
             setlinecolor(isCP ? RED : BLACK);
             setlinestyle(PS_SOLID, isCP ? 2 : 1);
-            // ç»˜åˆ¶çº¿æ¡
+            // »æÖÆÏßÌõ
             line(positions[proj.id].x, positions[proj.id].y, positions[to].x, positions[to].y);
         }
     }
 
-    // ç»˜åˆ¶èŠ‚ç‚¹æ ‡ç­¾
+    // »æÖÆ½Úµã±êÇ©
     for (size_t i = 0; i < subproject.size(); ++i) {
-        // è®¾ç½®æ–‡æœ¬é¢œè‰²
+        // ÉèÖÃÎÄ±¾ÑÕÉ«
         settextcolor(is_any_in_vector(criticalPath, subproject[i].id) ? RED : BLACK);
-        // è®¾ç½®æ–‡æœ¬æ ¼å¼
+        // ÉèÖÃÎÄ±¾¸ñÊ½
         TCHAR buffer[10];
         wsprintf(buffer, TEXT("%d"), subproject[i].id);
-        // è®¾ç½®æ–‡æœ¬å¯¹é½æ–¹å¼
+        // ÉèÖÃÎÄ±¾¶ÔÆë·½Ê½
         setbkmode(TRANSPARENT);
-        // ç»˜åˆ¶èŠ‚ç‚¹IDï¼Œä½äºèŠ‚ç‚¹ä½ç½®çš„ä¸­å¿ƒ
+        // »æÖÆ½ÚµãID£¬Î»ÓÚ½ÚµãÎ»ÖÃµÄÖĞĞÄ
         outtextxy(positions[i].x - 5, positions[i].y - 7, buffer);
     }
 }
 
-// è¾…åŠ©å‡½æ•°ï¼šæ£€æŸ¥å…ƒç´ æ˜¯å¦åœ¨vectorä¸­
+// ¼ì²éÔªËØÊÇ·ñÔÚvectorÖĞ
 bool is_any_in_vector(const vector<int>& vec, int element) {
     return find(vec.begin(), vec.end(), element) != vec.end();
 }
 
 int main() {
     int n, m;
-    cout << "è¯·è¾“å…¥å­å·¥ç¨‹æ•°é‡ï¼ˆ>=10ï¼‰ï¼š";
+    cout << "ÇëÊäÈë×Ó¹¤³ÌÊıÁ¿£¨>=10£©£º";
     cin >> n;
     if (n < 10) {
-        cout << "å­å·¥ç¨‹æ•°é‡å¿…é¡»ä¸å°‘äº10ã€‚" << endl;
+        cout << "×Ó¹¤³ÌÊıÁ¿±ØĞë²»ÉÙÓÚ10¡£" << endl;
         return 1;
     }
 
-    cout << "è¯·è¾“å…¥ä¾èµ–å…³ç³»æ•°é‡ï¼ˆ>=20ï¼‰ï¼š";
+    cout << "ÇëÊäÈëÒÀÀµ¹ØÏµÊıÁ¿£¨>=20£©£º";
     cin >> m;
     if (m < 20) {
-        cout << "ä¾èµ–å…³ç³»æ•°é‡å¿…é¡»ä¸å°‘äº20ã€‚" << endl;
+        cout << "ÒÀÀµ¹ØÏµÊıÁ¿±ØĞë²»ÉÙÓÚ20¡£" << endl;
         return 1;
     }
 
-    // å­å·¥ç¨‹
+    // ×Ó¹¤³Ì
     vector<SubProject> subproject(n);
 
-    // é‚»æ¥è¡¨
+    // ÁÚ½Ó±í
+    /*
+    ÁÚ½Ó±íÓÃvector<vector<int>> graph´æ´¢£¬
+    graph[u]´æ´¢½áµãuµÄºó¼Ì½áµã£¬ÊÇÊı×éĞÎÊ½£¬´æ´¢½áµãµÄid
+    */
     vector<vector<int>> graph(n);
 
-    // è¾“å…¥æ¯ä¸ªå­å·¥ç¨‹çš„æŒç»­æ—¶é—´
+    // ÊäÈëÃ¿¸ö×Ó¹¤³ÌµÄ³ÖĞøÊ±¼ä
     for (int i = 0; i < n; ++i) {
         subproject[i].id = i;
-        cout << "è¯·è¾“å…¥å­å·¥ç¨‹ " << i << " çš„æŒç»­æ—¶é—´ï¼š";
+        cout << "ÇëÊäÈë×Ó¹¤³Ì " << i << " µÄ³ÖĞøÊ±¼ä£º";
         cin >> subproject[i].duration;
         if (subproject[i].duration <= 0) {
-            cout << "æŒç»­æ—¶é—´å¿…é¡»ä¸ºæ­£æ•´æ•°ã€‚" << endl;
-            --i;  // é‡æ–°è¾“å…¥å½“å‰å­å·¥ç¨‹
+            cout << "³ÖĞøÊ±¼ä±ØĞëÎªÕıÕûÊı¡£" << endl;
+            --i;  // ÖØĞÂÊäÈëµ±Ç°×Ó¹¤³Ì
             continue;
         }
     }
 
-    // è¾“å…¥ä¾èµ–å…³ç³»
-    cout << "è¯·è¾“å…¥ä¾èµ–å…³ç³»ï¼ˆæ ¼å¼ï¼šfrom toï¼‰ï¼š" << endl;
+    // ÊäÈëÒÀÀµ¹ØÏµ
+    cout << "ÇëÊäÈëÒÀÀµ¹ØÏµ£¨¸ñÊ½£ºfrom to£©£º" << endl;
     for (int i = 0; i < m; ++i) {
         int from, to;
         cin >> from >> to;
         if (from < 0 || from >= n || to < 0 || to >= n) {
-            cout << "æ— æ•ˆçš„ä¾èµ–å…³ç³»: " << from << " -> " << to << ". è¯·é‡æ–°è¾“å…¥ã€‚" << endl;
-            --i;  // é‡æ–°è¾“å…¥å½“å‰è¾¹
+            cout << "ÎŞĞ§µÄÒÀÀµ¹ØÏµ: " << from << " -> " << to << ". ÇëÖØĞÂÊäÈë¡£" << endl;
+            --i;  // ÖØĞÂÊäÈëµ±Ç°±ß
             continue;
         }
         if (from == to) {
-            cout << "è‡ªç¯ä¾èµ–å…³ç³»æ— æ•ˆ: " << from << " -> " << to << ". è¯·é‡æ–°è¾“å…¥ã€‚" << endl;
-            --i;  // é‡æ–°è¾“å…¥å½“å‰è¾¹
+            cout << "×Ô»·ÒÀÀµ¹ØÏµÎŞĞ§: " << from << " -> " << to << ". ÇëÖØĞÂÊäÈë¡£" << endl;
+            --i;  // ÖØĞÂÊäÈëµ±Ç°±ß
             continue;
         }
-        // æ£€æŸ¥æ˜¯å¦å·²ç»å­˜åœ¨ç›¸åŒçš„ä¾èµ–å…³ç³»
+        // ¼ì²éÊÇ·ñÒÑ¾­´æÔÚÏàÍ¬µÄÒÀÀµ¹ØÏµ
         if (find(graph[from].begin(), graph[from].end(), to) != graph[from].end()) {
-            cout << "ä¾èµ–å…³ç³» " << from << " -> " << to << " å·²å­˜åœ¨ã€‚è¯·é‡æ–°è¾“å…¥ã€‚" << endl;
-            --i;  // é‡æ–°è¾“å…¥å½“å‰è¾¹
+            cout << "ÒÀÀµ¹ØÏµ " << from << " -> " << to << " ÒÑ´æÔÚ¡£ÇëÖØĞÂÊäÈë¡£" << endl;
+            --i;  // ÖØĞÂÊäÈëµ±Ç°±ß
             continue;
         }
         subproject[from].next.push_back(to);
         graph[from].push_back(to);
     }
 
-    // åˆ¤æ–­æ˜¯å¦æœ‰ç¯
+    // ÅĞ¶ÏÊÇ·ñÓĞ»·
     if (ExistCycle(graph, n)) {
-        cout << "é¡¹ç›®å­˜åœ¨å¾ªç¯ä¾èµ–ï¼Œæ— æ³•å®Œæˆã€‚" << endl;
+        cout << "ÏîÄ¿´æÔÚÑ­»·ÒÀÀµ£¬ÎŞ·¨Íê³É¡£" << endl;
         return 1;
     }
 
-    // æ‹“æ‰‘æ’åº
+    // ÍØÆËÅÅĞò
     vector<int> topoOrder = topologicalSort(graph, n);
-    cout << "æ‹“æ‰‘æ’åºåºåˆ—ï¼š";
+    cout << "ÍØÆËÅÅĞòĞòÁĞ£º";
     for (int id : topoOrder) {
         cout << id << " ";
     }
     cout << endl;
 
-    // è®¡ç®—å…³é”®è·¯å¾„
+    // ¼ÆËã¹Ø¼üÂ·¾¶
     CriticalPathResult cpResult = findCriticalPath(subproject, topoOrder);
-    cout << "å…³é”®è·¯å¾„ï¼š";
+    cout << "¹Ø¼üÂ·¾¶£º";
     for (int id : cpResult.criticalPath) {
         cout << id << " ";
     }
     cout << endl;
-    cout << "å…³é”®è·¯å¾„é•¿åº¦ï¼š" << cpResult.criticalPathLength << endl;
+    cout << "¹Ø¼üÂ·¾¶³¤¶È£º" << cpResult.criticalPathLength << endl;
 
-    // åˆå§‹åŒ– EasyX å›¾å½¢çª—å£
-    initgraph(800, 600);  // è®¾ç½®çª—å£å¤§å°
-    setbkcolor(WHITE);    // è®¾ç½®èƒŒæ™¯é¢œè‰²ä¸ºç™½è‰²
-    cleardevice();        // æ¸…ç©ºè®¾å¤‡
+    // ³õÊ¼»¯ EasyX Í¼ĞÎ´°¿Ú
+    initgraph(800, 600);  // ÉèÖÃ´°¿Ú´óĞ¡
+    setbkcolor(WHITE);    // ÉèÖÃ±³¾°ÑÕÉ«Îª°×É«
+    cleardevice();        // Çå¿ÕÉè±¸
 
-    // è®¡ç®—èŠ‚ç‚¹ä½ç½®ï¼ˆç¯å½¢å¸ƒå±€ï¼‰
+    // ¼ÆËã½ÚµãÎ»ÖÃ£¨»·ĞÎ²¼¾Ö£©È·±£ËùÓĞ½ÚµãÔÚÔ²ÖÜÉÏ¾ùÔÈ·Ö²¼
+    /*
+    ¸ù¾İÍ¼ĞÎ´°¿ÚµÄ¿í¶ÈºÍ¸ß¶È£¨800x600£©£¬Ñ¡Ôñ½ÏĞ¡µÄÒ»±ß£¨600£©µÄÒ»°ëÎª»ù´¡¡£
+    ¼õÈ¥100ÒÔÁô³ö±ß¾à£¬±ÜÃâ½Úµã¿¿½ü´°¿Ú±ßÔµ
+    */
     vector<NodePosition> positions(n);
     double angleStep = 2 * M_PI / n;
-    double radius = min(800.0, 600.0) / 2 - 100;  // åœ†çš„åŠå¾„
-    double centerX = 400.0;  // åœ†å¿ƒX
-    double centerY = 300.0;  // åœ†å¿ƒY
+    double radius = min(800.0, 600.0) / 2 - 100;  // Ô²µÄ°ë¾¶
+    double centerX = 400.0;  // Ô²ĞÄX
+    double centerY = 300.0;  // Ô²ĞÄY
     for (int i = 0; i < n; ++i) {
-        double angle = i * angleStep - M_PI / 2;  // ä»é¡¶éƒ¨å¼€å§‹
+        double angle = i * angleStep - M_PI / 2;  // ´Ó¶¥²¿¿ªÊ¼
         positions[i].x = static_cast<int>(centerX + radius * cos(angle));
         positions[i].y = static_cast<int>(centerY + radius * sin(angle));
     }
 
-    // ç»˜åˆ¶å›¾å½¢
+    // »æÖÆÍ¼ĞÎ
     drawGraph(subproject, topoOrder, cpResult.criticalPath, positions);
 
-    // ç­‰å¾…ç”¨æˆ·å…³é—­çª—å£
-    cout << "å›¾å½¢å·²ç»˜åˆ¶ã€‚è¯·å…³é—­å›¾å½¢çª—å£ä»¥ç»“æŸç¨‹åºã€‚" << endl;
-    system("pause");  // ç­‰å¾…ç”¨æˆ·æŒ‰é”®
+    // µÈ´ıÓÃ»§¹Ø±Õ´°¿Ú
+    cout << "Í¼ĞÎÒÑ»æÖÆ¡£Çë¹Ø±ÕÍ¼ĞÎ´°¿ÚÒÔ½áÊø³ÌĞò¡£" << endl;
+    system("pause");  // µÈ´ıÓÃ»§°´¼ü
     closegraph();
 
     return 0;
