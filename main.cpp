@@ -184,6 +184,29 @@ void drawGraph(const vector<SubProject>& subproject, const vector<int>& topoOrde
             int thickness = isCP ? 2 : 1;
             // 绘制线条
             drawArrowLine(positions[proj.id].x, positions[proj.id].y, positions[to].x, positions[to].y, edgeColor, thickness);
+
+            // 计算线条中点位置
+            int midX = (positions[proj.id].x + positions[to].x) / 2;
+            int midY = (positions[proj.id].y + positions[to].y) / 2;
+            
+            // 计算线条角度
+            double angle = atan2((double)(positions[to].y - positions[proj.id].y), (double)(positions[to].x - positions[proj.id].x));
+            
+            // 设置标签偏移量，以避免与线条重叠
+            int offset = 0; // 调整偏移量大小
+            int labelX = midX + static_cast<int>(offset * (-sin(angle)));
+            int labelY = midY + static_cast<int>(offset * cos(angle));
+            
+            // 准备持续时间标签
+            TCHAR durLabel[10];
+            wsprintf(durLabel, TEXT("%d"), subproject[proj.id].duration);
+            
+            // 设置文本颜色和样式
+            settextcolor(BLUE); // 可以根据需要调整颜色
+            settextstyle(12, 0, _T("Consolas")); // 设置文本字体和大小
+            
+            // 绘制持续时间标签
+            outtextxy(labelX, labelY, durLabel);
         }
     }
 
