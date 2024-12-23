@@ -139,6 +139,33 @@ struct NodePosition {
     int y;
 };
 
+// 绘制带箭头的线条
+void drawArrowLine(int x1, int y1, int x2, int y2, COLORREF color, int thickness = 1, double arrowSize = 10, double arrowAngle = 30) {
+    // 设置线条颜色和样式
+    setlinecolor(color);
+    setlinestyle(PS_SOLID, thickness);
+
+    // 绘制主线条
+    line(x1, y1, x2, y2);
+
+    // 计算线条角度
+    double angle = atan2((double)(y2 - y1), (double)(x2 - x1));
+
+    // 计算箭头两边的点
+    double angle1 = angle + (M_PI / 180) * arrowAngle;
+    double angle2 = angle - (M_PI / 180) * arrowAngle;
+
+    int arrowX1 = (int)(x2 - arrowSize * cos(angle1));
+    int arrowY1 = (int)(y2 - arrowSize * sin(angle1));
+
+    int arrowX2 = (int)(x2 - arrowSize * cos(angle2));
+    int arrowY2 = (int)(y2 - arrowSize * sin(angle2));
+
+    // 绘制箭头两边
+    line(x2, y2, arrowX1, arrowY1);
+    line(x2, y2, arrowX2, arrowY2);
+}
+
 // 绘制拓扑图和关键路径（仅绘制边和节点标签，不绘制圆）
 void drawGraph(const vector<SubProject>& subproject, const vector<int>& topoOrder, const vector<int>& criticalPath, const vector<NodePosition>& positions) {
     // 绘制边
@@ -153,10 +180,10 @@ void drawGraph(const vector<SubProject>& subproject, const vector<int>& topoOrde
                 }
             }
             // 设置颜色
-            setlinecolor(isCP ? RED : BLACK);
-            setlinestyle(PS_SOLID, isCP ? 2 : 1);
+            COLORREF edgeColor = isCP ? RED : BLACK;
+            int thickness = isCP ? 2 : 1;
             // 绘制线条
-            line(positions[proj.id].x, positions[proj.id].y, positions[to].x, positions[to].y);
+            drawArrowLine(positions[proj.id].x, positions[proj.id].y, positions[to].x, positions[to].y, edgeColor, thickness);
         }
     }
 
@@ -290,7 +317,7 @@ int main() {
     drawGraph(subproject, topoOrder, cpResult.criticalPath, positions);
 
     // 等待用户关闭窗口
-    cout << "图形已绘制。请关闭图形窗口以结束程序。" << endl;
+    cout << "图形已绘制。" << endl;
     system("pause");  // 等待用户按键
     closegraph();
 
