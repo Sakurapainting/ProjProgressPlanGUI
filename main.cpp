@@ -212,8 +212,9 @@ void drawGraph(const vector<SubProject>& subproject, const vector<int>& topoOrde
 
     // 绘制节点标签
     for (size_t i = 0; i < subproject.size(); ++i) {
-        // 设置文本颜色
+        // 设置文本
         settextcolor(is_any_in_vector(criticalPath, subproject[i].id) ? RED : BLACK);
+        settextstyle(28, 0, _T("Consolas")); // 设置文本字体和大小
         // 设置文本格式
         TCHAR buffer[10];
         wsprintf(buffer, TEXT("%d"), subproject[i].id);
