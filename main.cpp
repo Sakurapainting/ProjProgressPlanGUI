@@ -105,14 +105,14 @@ CriticalPathResult findCriticalPath(const vector<SubProject>& subproject, const 
     vector<int> earliest(n, 0);
     vector<int> latest(n, INT_MAX);
 
-    // 计算最早开始时间 = 最早完成时间（earliest[u] + subproject[u].duration）与当前 earliest[v] 的较大值
+    // 计算最早开始时间 = 最早时间（earliest[u] + subproject[u].duration）与当前 earliest[v] 的较大值
     for (int u : topoOrder) {
         for (int v : subproject[u].next) {
             earliest[v] = max(earliest[v], earliest[u] + subproject[u].duration);
         }
     }
 
-    // 计算最晚开始时间 = 最晚完成时间（latest[v] - subproject[u].duration）与当前 latest[u] 的较小值
+    // 计算最晚开始时间 = 最晚时间（latest[v] - subproject[u].duration）与当前 latest[u] 的较小值
     latest[topoOrder.back()] = earliest[topoOrder.back()];
     // 反向迭代器逆序遍历拓扑排序
     for (auto it = topoOrder.rbegin(); it != topoOrder.rend(); ++it) {
@@ -166,7 +166,7 @@ void drawArrowLine(int x1, int y1, int x2, int y2, COLORREF color, int thickness
     line(x2, y2, arrowX2, arrowY2);
 }
 
-// 绘制拓扑图和关键路径（仅绘制边和节点标签，不绘制圆）
+// 绘制拓扑图和关键路径
 void drawGraph(const vector<SubProject>& subproject, const vector<int>& topoOrder, const vector<int>& criticalPath, const vector<NodePosition>& positions) {
     // 绘制边
     for (const auto& proj : subproject) {
