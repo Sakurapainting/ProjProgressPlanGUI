@@ -116,7 +116,7 @@ CriticalPathResult findCriticalPath(const vector<SubProject>& subproject, const 
     latest[topoOrder.back()] = earliest[topoOrder.back()];
     // 反向迭代器逆序遍历拓扑排序
     for (auto it = topoOrder.rbegin(); it != topoOrder.rend(); ++it) {
-        int u = *it;    // 解引用
+        int u = *it;    
         for (int v : subproject[u].next) {
             latest[u] = min(latest[u], latest[v] - subproject[u].duration);
         }
